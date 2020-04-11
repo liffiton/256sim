@@ -29,6 +29,16 @@ def print_mem(array, name, val_width=8, label_all=False):
     print(imem_str)
 
 
+def print_input(buttons, name):
+    print_head(name)
+
+    num = len(buttons)
+
+    print("┌─" + "┬─"*(num-1) + "┐")
+    print("│" + "│".join(str(i) for i in buttons) + "│")
+    print("└─" + "┴─"*(num-1) + "┘")
+
+
 def print_matrix(matrix, name):
     print_head(name)
 

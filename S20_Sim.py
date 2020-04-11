@@ -1,10 +1,11 @@
-from utils import print_val, print_mem, print_matrix
+from utils import print_val, print_mem, print_input, print_matrix
 
 
 # Constants for this architecture
 _NUMREG = 8       # number of registers in the register file
 _REGSIZE = 8      # size (in bits) of each register)
 _ADDRSIZE = _REGSIZE  # size (in bits) of DMEM addresses
+_NUMBUTTONS = 4   # Number of buttons (binary on/off) for input
 _MATRIXSIZE = 10  # width and height of the pixel matrix output
 
 
@@ -12,7 +13,7 @@ class Simulator:
 
     def __init__(self):
         # CPU state:
-        self.imem = []  # not affected by CPU reset, so only initialized here
+        self.imem = [0]  # not affected by CPU reset, so only initialized here
         self.reset()
 
         # Simulator state (separate from the CPU itself):
@@ -29,6 +30,18 @@ class Simulator:
         # Always reset on loading new code
         self.reset()
 
+    def change_buttons(self, new_buttons):
+        # Change the state of the simulated buttons
+        # Parameter: new_buttons is a string, containing a 0 or 1 for each button
+        #            e.g. "0110" for the first button not pressed, the second and
+        #            third pressed, and the fourth not pressed.
+        buttons = [int(c) for c in new_buttons]
+        if len(buttons) != _NUMBUTTONS:
+            raise Exception(f"Incorrect number of buttons.  Got {len(buttons)}, expected {_NUMBUTTONS}.")
+        if max(buttons) > 1 or min(self.buttons) < 0:
+            raise Exception(f"Invalid value for button.  Only allowed values are 0 and 1.")
+        self.buttons = buttons
+
     def step(self):
         # Simulate *one* cycle of the CPU (Fetch-Decode-Execute)
         # Basic outline:
@@ -44,6 +57,7 @@ class Simulator:
         self.PC = 0
         self.regfile = [0] * _NUMREG
         self.dmem = [0] * 2**_ADDRSIZE
+        self.buttons = [0] * _NUMBUTTONS
         self.matrix = [([0] * _MATRIXSIZE) for _ in range(_MATRIXSIZE)]
 
     def print(self):
@@ -52,4 +66,5 @@ class Simulator:
         print_mem(self.imem, "IMEM", val_width=16)
         print_mem(self.regfile, "Regfile", label_all=True)
         print_mem(self.dmem, "DMEM")
+        print_input(self.buttons, "Input")
         print_matrix(self.matrix, "Output")
