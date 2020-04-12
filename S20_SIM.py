@@ -1,3 +1,7 @@
+#
+# S20_SIM.py  --  Simulator class for the SIM CPU designed by CS256-S20.
+#
+
 from utils import print_val, print_mem, print_input, print_matrix
 
 

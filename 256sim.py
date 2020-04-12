@@ -1,6 +1,6 @@
 #!/bin/env python3
 
-from S20_Sim import Simulator
+from S20_SIM import Simulator
 
 
 def read_cmd():
