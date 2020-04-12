@@ -46,6 +46,11 @@ class Simulator:
             raise Exception(f"Invalid value for button.  Only allowed values are 0 and 1.")
         self.buttons = buttons
 
+    def step_n(self, n):
+        # Simulate n cycles of the CPU (see self.step()).
+        for _ in range(n):
+            self.step()
+
     def step(self):
         # Simulate *one* cycle of the CPU (Fetch-Decode-Execute)
         # Basic outline:
