@@ -6,8 +6,11 @@ from S20_SIM import Simulator
 def read_cmd():
     # Show a prompt and read a command from the terminal
     cmd = input("[1;32mCommand[0;32m (H)elp | (L)oad machine code | Change (B)utton state | (S)tep | (R)eset | (Q)uit[1;32m:[m ")
-    parts = cmd.strip().split()
-    return parts[0].upper(), parts[1:]
+    if cmd:
+        parts = cmd.strip().split()
+        return parts[0].upper(), parts[1:]
+    else:
+        return "S", []
 
 
 def print_help():
@@ -28,6 +31,7 @@ Commands:
     (S)tep   -- Step the simulation forward one clock cycle / one instruction.
                 Optionally specify a number of cycles to simulate after the
                 command (e.g., "s 10").
+                (Pressing enter with no command entered will also execute Step.)
     (R)eset  -- Reset the state of the CPU, clearing all memory elements except
                 the instruction memory.
     (Q)uit   -- Exit the simulation.
