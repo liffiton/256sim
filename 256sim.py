@@ -43,13 +43,14 @@ def main():
     # Instantiate the Simulator object
     sim = Simulator()
 
-    # REPL:
+    # PREL (not REPL because we want to see the state first):
+    #  Print the current state of the simulation
     #  Read a command
     #  Evaluate that command (potentially running
     #    one or more steps of simulation)
-    #  Print the current state of the simulation
     #  Loop
     while True:
+        sim.print()
         print()
         cmd, args = read_cmd()
 
@@ -82,8 +83,6 @@ def main():
 
         elif cmd[0] == 'Q':
             break
-
-        sim.print()
 
 
 if __name__ == "__main__":
