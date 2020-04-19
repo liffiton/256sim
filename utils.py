@@ -11,6 +11,10 @@ def print_val(val, name):
     print(val)
 
 
+# store previous version of each array to highlight changes
+_mem_cache = {}
+
+
 def print_mem(array, name, val_width=8, label_all=False):
     addrsize = math.ceil(math.log2(len(array))/4)
     valsize = math.ceil(val_width/4)
@@ -20,13 +24,27 @@ def print_mem(array, name, val_width=8, label_all=False):
 
     print_head(name)
 
-    imem_str = '\n'.join(
+    try:
+        prev = _mem_cache[name]
+        assert len(prev) == len(array)  # so we ignore it if it's a different length
+    except (KeyError, AssertionError):
+        prev = array
+
+    both = list(zip(array, prev))
+
+    mem_str = '\n'.join(
         f"{i:0{addrsize}x}: " + ' '.join(
-            f"{x:0{val_width//4}x}" for x in array[i:i+row_len]
+            (
+                ("[34;1;4m" if x != prev_x else "") +
+                f"{x:0{valsize}x}" +
+                ("[m" if x != prev_x else "")
+            ) for x, prev_x in both[i: i+row_len]
         )
         for i in range(0, len(array), row_len)
     )
-    print(imem_str)
+    print(mem_str)
+
+    _mem_cache[name] = array[:]  # make a copy
 
 
 def print_input(buttons, name):
