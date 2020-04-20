@@ -1,5 +1,7 @@
 #!/bin/env python3
 
+import sys
+
 from S20_SIM import Simulator
 
 
@@ -43,6 +45,14 @@ def main():
     # Instantiate the Simulator object
     sim = Simulator()
 
+    # Allow a bin file to be specified on the command line
+    if len(sys.argv) > 1:
+        binfile = sys.argv[1]
+        try:
+            sim.load_bin(binfile)
+        except Exception as e:
+            print(f"[1;31mError loading file:[m {e}")
+
     # PREL (not REPL because we want to see the state first):
     #  Print the current state of the simulation
     #  Read a command
@@ -77,6 +87,10 @@ def main():
         elif cmd[0] == 'S':
             n = int(args[0]) if args else 1
             sim.step_n(n)
+
+        elif cmd[0] == 'W':
+            n = int(args[0]) if args else None
+            sim.watch_n(n)
 
         elif cmd[0] == 'R':
             sim.reset()

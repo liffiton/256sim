@@ -4,6 +4,7 @@
 
 from utils import print_val, print_mem, print_input, print_matrix
 
+import time
 
 # Constants for this architecture
 _NUMREG = 8       # number of registers in the register file
@@ -50,6 +51,16 @@ class Simulator:
         # Simulate n cycles of the CPU (see self.step()).
         for _ in range(n):
             self.step()
+
+    def watch_n(self, n):
+        # Simulate n cycles of the CPU, as in step_n(), but watch the
+        # state of the CPU by printing after every 10th cycle.
+        for i in range(n):
+            self.step()
+            if i % 10 == 0:
+                print("[2J[H")  # clear the screen and return to home position
+                self.print()
+                time.sleep(0.05)
 
     def step(self):
         # Simulate *one* cycle of the CPU (Fetch-Decode-Execute)
