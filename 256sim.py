@@ -1,4 +1,10 @@
 #!/bin/env python3
+#
+# 256sim.py -- Command-line simulation of the CS256-S20 SIM CPU.
+#
+# Author: Mark Liffiton
+# Date: April, 2020
+#
 
 import sys
 
@@ -7,7 +13,7 @@ from S20_SIM import Simulator
 
 def read_cmd():
     # Show a prompt and read a command from the terminal
-    cmd = input("[1;32mCommand[0;32m (H)elp | (L)oad machine code | Change (B)utton state | (S)tep | (R)eset | (Q)uit[1;32m:[m ")
+    cmd = input("[1;32mCommand[0;32m (H)elp | (L)oad | (B)utton | (S)tep | (W)atch | (R)eset | (Q)uit[1;32m:[m ")
     if cmd:
         parts = cmd.strip().split()
         return parts[0].upper(), parts[1:]
@@ -34,6 +40,9 @@ Commands:
                 Optionally specify a number of cycles to simulate after the
                 command (e.g., "s 10").
                 (Pressing enter with no command entered will also execute Step.)
+    (W)atch  -- Watch the simulation over multiple clock cycles.  Specify a number
+                of cycles to simulate after the command (e.g., "w 10000").  The
+                state of the CPU is continuously displayed as the simulation runs.
     (R)eset  -- Reset the state of the CPU, clearing all memory elements except
                 the instruction memory.
     (Q)uit   -- Exit the simulation.
@@ -64,11 +73,12 @@ def main():
         print()
         cmd, args = read_cmd()
 
-        if cmd[0] == 'H':
+        # help doesn't print the state again, just goes straight to another prompt
+        while cmd[0] == 'H':
             print_help()
-            continue
+            cmd, args = read_cmd()
 
-        elif cmd[0] == 'L':
+        if cmd[0] == 'L':
             filename = args[0] if args else input("[1;32mBinary file:[m ")
             try:
                 sim.load_bin(filename)
