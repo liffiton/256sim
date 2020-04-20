@@ -15,6 +15,25 @@ Asciinema demo:
 
 [![demo](https://asciinema.org/a/WMgPVtNbGgCrk4hIxw5eZFirF.svg)](https://asciinema.org/a/WMgPVtNbGgCrk4hIxw5eZFirF?autoplay=1)
 
+## Usage
+
+Run `256sim.py` to launch the simulator.  You can optionally specify a machine
+code file to load from the commandline like:
+```bash
+$ ./256sim.py FILE.bin
+```
+
+At the simulator's prompt, press <kbd>ENTER</kbd> with no command to step
+forward one cycle in the simulation.
+
+<kbd>S 200</kdb> will step forward 200 cycles, updating the display when
+finished.
+
+<kbd>W 2000</kbd> will watch 2000 cycles of execution, updating the display as
+the simulation runs.
+
+See the built-in help (<kbd>H</kbd>) for more commands and options.
+
 ## Dependencies
 
 The code is compatible with Python 3.6+ with no dependencies beyond the
