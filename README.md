@@ -26,7 +26,7 @@ $ ./256sim.py FILE.bin
 At the simulator's prompt, press <kbd>ENTER</kbd> with no command to step
 forward one cycle in the simulation.
 
-<kbd>S 200</kdb> will step forward 200 cycles, updating the display when
+<kbd>S 200</kbd> will step forward 200 cycles, updating the display when
 finished.
 
 <kbd>W 2000</kbd> will watch 2000 cycles of execution, updating the display as
