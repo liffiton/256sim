@@ -11,6 +11,10 @@ The simulator can be run via the command-line as ``256sim.py``.
 
 ![256sim screenshot](docs/256sim_screenshot.png?raw=true)
 
+Asciinema demo:
+
+[![demo](https://asciinema.org/a/WMgPVtNbGgCrk4hIxw5eZFirF.svg)](https://asciinema.org/a/WMgPVtNbGgCrk4hIxw5eZFirF?autoplay=1)
+
 ## Dependencies
 
 The code is compatible with Python 3.6+ with no dependencies beyond the
