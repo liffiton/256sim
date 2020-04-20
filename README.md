@@ -16,3 +16,8 @@ The simulator can be run via the command-line as ``256sim.py``.
 The code is compatible with Python 3.6+ with no dependencies beyond the
 Python standard library.
 
+## Authors
+
+Developed by Mark Liffiton.
+
+S20-SIM ISA simulation code contributed by Jonathan Nocek and Kyle Wheat.
