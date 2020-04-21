@@ -62,23 +62,24 @@ def main():
         except Exception as e:
             print(f"[1;31mError loading file:[m {e}")
 
-    # PREL (not REPL because we want to see the state first):
-    #  Print the current state of the simulation
+        # Print state once to start if code already loaded
+        sim.print()
+
+    # REPL:
     #  Read a command
     #  Evaluate that command (potentially running
     #    one or more steps of simulation)
+    #  Print the current state of the simulation
     #  Loop
     while True:
-        sim.print()
-        print()
         cmd, args = read_cmd()
 
         # help doesn't print the state again, just goes straight to another prompt
-        while cmd[0] == 'H':
+        if cmd[0] == 'H':
             print_help()
-            cmd, args = read_cmd()
+            continue
 
-        if cmd[0] == 'L':
+        elif cmd[0] == 'L':
             filename = args[0] if args else input("[1;32mBinary file:[m ")
             try:
                 sim.load_bin(filename)
@@ -99,7 +100,10 @@ def main():
             sim.step_n(n)
 
         elif cmd[0] == 'W':
-            n = int(args[0]) if args else None
+            if not args:
+                print(f"[1;31mWatch command requires a number of cycles to watch.  (E.g., 'W 10000'[m")
+                continue
+            n = int(args[0])
             sim.watch_n(n)
 
         elif cmd[0] == 'R':
@@ -107,6 +111,8 @@ def main():
 
         elif cmd[0] == 'Q':
             break
+
+        sim.print()
 
 
 if __name__ == "__main__":
