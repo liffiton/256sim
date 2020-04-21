@@ -222,14 +222,14 @@ class Simulator:
         r1 = Mem[r2]
         R-format
         """
-        self.regfile[r1] = self.dmem[r2]
+        self.regfile[r1] = self.dmem[self.regfile[r2]]
 
     def _store(self, r1, r2):
         """
         Mem[r2] = r1
         R-format
         """
-        self.dmem[r2] = self.regfile[r1]
+        self.dmem[self.regfile[r2]] = self.regfile[r1]
 
     def _beq(self, r1, label):
         """
