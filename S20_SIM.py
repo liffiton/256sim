@@ -59,10 +59,10 @@ class Simulator:
 
     def watch_n(self, n):
         # Simulate n cycles of the CPU, as in step_n(), but watch the
-        # state of the CPU by printing after every 10th cycle.
+        # state of the CPU by printing after every 100th cycle.
         for i in range(n):
             self.step()
-            if i % 10 == 0:
+            if i % 100 == 0:
                 print("[2J[H")  # clear the screen and return to home position
                 self.print()
                 time.sleep(0.05)
