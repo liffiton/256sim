@@ -13,7 +13,7 @@ The simulator can be run via the command-line as ``256sim.py``.
 
 Asciinema demo:
 
-[![demo](https://asciinema.org/a/WMgPVtNbGgCrk4hIxw5eZFirF.svg)](https://asciinema.org/a/WMgPVtNbGgCrk4hIxw5eZFirF?autoplay=1)
+[![demo](https://asciinema.org/a/9qoZyN8gmCZDfo0buELqGj2bD.svg)](https://asciinema.org/a/9qoZyN8gmCZDfo0buELqGj2bD?autoplay=1)
 
 ## Usage
 
