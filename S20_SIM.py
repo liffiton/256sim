@@ -3,7 +3,7 @@
 #
 # Authors: Mark Liffiton, Jonathan Nocek, Kyle Wheat
 #
-from utils import print_val, print_mem, print_input, print_matrix
+from print_utils import print_val, print_mem, print_input, print_matrix
 
 import random
 import time
@@ -90,7 +90,7 @@ class Simulator:
     def print(self):
         # Print the current state of all state (memory) elements of the CPU
         print_val(self.PC, "PC")
-        print_mem(self.imem, "IMEM", val_width=16)
+        print_mem(self.imem, "IMEM", val_width=16, highlight=self.PC)
         print_mem(self.regfile, "Regfile", label_all=True)
         print_mem(self.dmem, "DMEM")
         print_input(self.buttons, "Input")
