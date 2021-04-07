@@ -7,7 +7,7 @@ which they learn earlier in the semester), design a datapath for it, and
 implement their CPU in [Logisim](http://www.cburch.com/logisim/), in a
 simulator (this program) and on physical breadboards.
 
-The simulator can be run via the command-line as ``256sim.py``.
+The simulator can be run via the command line as ``256sim.py``.
 
 ![256sim screenshot](docs/256sim_screenshot.png?raw=true)
 
@@ -18,11 +18,16 @@ Asciinema demo:
 ## Usage
 
 Run `256sim.py` to launch the simulator.  Specify an architecture, and
-optionally specify a machine code file to load from the commandline like:
+optionally specify a machine code file to load from the command line like:
 ```bash
-$ ./256sim.py S20_SIM
-$ ./256sim.py S20_SIM FILE.bin
+$ ./256sim.py ARCH
+# or
+$ ./256sim.py ARCH FILE.bin
 ```
+
+The architecture (ARCH) should be the name of an architecture simulator
+module placed under `archs/`.  Specify the name of the Python file without
+the `.py` suffix.
 
 At the simulator's prompt, press <kbd>ENTER</kbd> with no command to step
 forward one cycle in the simulation.
@@ -38,11 +43,12 @@ See the built-in help (<kbd>H</kbd>) for more commands and options.
 ## Architectures
 
 A simulator for a given architecture can be made by copying
-`simulator_template.py` and implementing the `step()` method.
+`simulator_template.py` to `[architecture name].py` and implementing the
+`step()` method.
 
 Then, place the new file in `archs` and run the simulator with
 that architecture by specifying the architecture name (*without*
-`.py`) as a command-line argument.
+`.py`) as a command line argument.
 
 ## Dependencies
 
