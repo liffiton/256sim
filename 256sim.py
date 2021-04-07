@@ -6,9 +6,9 @@
 # Date: April, 2020
 #
 
-import sys
-
-from S20_SIM import Simulator
+import argparse
+import importlib
+import pathlib
 
 
 def read_cmd():
@@ -51,16 +51,26 @@ Commands:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Simulate a CS256-designed CPU.")
+    # Find all files archs/*.py, strip the .py part
+    archs = [p.name[:-3] for p in pathlib.Path(".").glob("archs/*.py")]
+    parser.add_argument("architecture", choices=archs)
+    archs = [p.name for p in pathlib.Path(".").glob("tests/*")]
+    parser.add_argument("binfile", nargs="?")
+    args = parser.parse_args()
+
+    arch = importlib.import_module(f"archs.{args.architecture}")
+
     # Instantiate the Simulator object
-    sim = Simulator()
+    sim = arch.Simulator()
 
     # Allow a bin file to be specified on the command line
-    if len(sys.argv) > 1:
-        binfile = sys.argv[1]
+    if args.binfile:
         try:
-            sim.load_bin(binfile)
+            sim.load_bin(args.binfile)
         except Exception as e:
             print(f"[1;31mError loading file:[m {e}")
+            return
 
         # Print state once to start if code already loaded
         sim.print()

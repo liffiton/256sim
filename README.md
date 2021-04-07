@@ -17,10 +17,11 @@ Asciinema demo:
 
 ## Usage
 
-Run `256sim.py` to launch the simulator.  You can optionally specify a machine
-code file to load from the commandline like:
+Run `256sim.py` to launch the simulator.  Specify an architecture, and
+optionally specify a machine code file to load from the commandline like:
 ```bash
-$ ./256sim.py FILE.bin
+$ ./256sim.py S20_SIM
+$ ./256sim.py S20_SIM FILE.bin
 ```
 
 At the simulator's prompt, press <kbd>ENTER</kbd> with no command to step
@@ -33,6 +34,15 @@ finished.
 the simulation runs.
 
 See the built-in help (<kbd>H</kbd>) for more commands and options.
+
+## Architectures
+
+A simulator for a given architecture can be made by copying
+`simulator_template.py` and implementing the `step()` method.
+
+Then, place the new file in `archs` and run the simulator with
+that architecture by specifying the architecture name (*without*
+`.py`) as a command-line argument.
 
 ## Dependencies
 
