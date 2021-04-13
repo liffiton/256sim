@@ -15,7 +15,7 @@ def print_val(val, name):
 _mem_cache = {}
 
 
-def print_mem(array, name, val_width=8, label_all=False, highlight=None):
+def print_mem(array, name, val_width=8, label_all=False, highlight=None, limit_to_modified=False, limit_to_nonzero=False):
     addrsize = math.ceil(math.log2(len(array))/4)
     valsize = math.ceil(val_width/4)
 
@@ -25,12 +25,11 @@ def print_mem(array, name, val_width=8, label_all=False, highlight=None):
     print_head(name)
 
     try:
-        prev = _mem_cache[name]
+        prev, max_mod_addr = _mem_cache[name]
         assert len(prev) == len(array)  # so we ignore it if it's a different length
     except (KeyError, AssertionError):
         prev = array
-
-    both = list(zip(array, prev))
+        max_mod_addr = -1
 
     def row_to_str(row_both, offset):
         # Turn a row of a memory into a printable string
@@ -46,13 +45,32 @@ def print_mem(array, name, val_width=8, label_all=False, highlight=None):
             ) for i, (x, prev_x) in enumerate(row_both)
         )
 
+    # For matched current/prev values to calc max_mod_addr and for row_to_str()
+    both = list(zip(array, prev))
+
+    # Find the maximum index that differs in the array from last time, if anything changed
+    if array != prev:
+        max_mod_addr_now = max(i for i, pair in enumerate(both) if pair[0] != pair[1])
+        # Take the highest of either that index or our previous max
+        max_mod_addr = max(max_mod_addr, max_mod_addr_now)
+
+    # Calculate the maximum address to print based on specified arguments
+    max_addr = len(array) - 1
+    if limit_to_nonzero:  # only works if there is at least one non-zero element...
+        max_addr = max(i for i, val in enumerate(array) if val != 0)
+    if limit_to_modified:
+        max_addr = min(max_addr, max_mod_addr)
+
     mem_str = '\n'.join(
         row_to_str(both[i : i+row_len], i)
-        for i in range(0, len(array), row_len)
+        for i in range(0, max_addr+1, row_len)
     )
     print(mem_str)
+    if limit_to_modified and max_addr != len(array):
+        print(f"[34m[Remaining addresses not modified since start of simulation.][m")
 
-    _mem_cache[name] = array[:]  # make a copy
+    # Store the current contents and our maximum modified address for next time
+    _mem_cache[name] = array[:], max_mod_addr
 
 
 def print_input(buttons, name):
