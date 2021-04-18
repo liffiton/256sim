@@ -17,17 +17,19 @@ Asciinema demo:
 
 ## Usage
 
-Run `256sim.py` to launch the simulator.  Specify an architecture, and
-optionally specify a machine code file to load from the command line like:
+Run `256sim.py` on the command line to launch the simulator.  Specify an
+architecture, and optionally specify a machine code file to load from the
+command line like:
 ```bash
-$ ./256sim.py ARCH
+$ python3 ./256sim.py ARCH
 # or
-$ ./256sim.py ARCH FILE.bin
+$ python3 ./256sim.py ARCH FILE.bin
 ```
 
-The architecture (ARCH) should be the name of an architecture simulator
-module placed under `archs/`.  Specify the name of the Python file without
-the `.py` suffix.
+The architecture (ARCH) should be the name of an architecture simulator module
+placed under `archs/`.  Specify the name of the Python file without the `.py`
+suffix.  If you run `python3 ./256sim.py` without any arguments, it will show
+you the possible architecture names it finds in `arch/` itself.
 
 At the simulator's prompt, press <kbd>ENTER</kbd> with no command to step
 forward one cycle in the simulation.
@@ -39,6 +41,15 @@ finished.
 the simulation runs.
 
 See the built-in help (<kbd>H</kbd>) for more commands and options.
+
+### Windows
+
+The UI uses [ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code) to
+color parts of the interface.  Windows terminals might not support these by
+default.  If you're running this under Windows, install and use [Windows
+Terminal](https://github.com/microsoft/terminal) to get proper support for ANSI
+colors and other benefits.
+
 
 ## Architectures
 
@@ -59,4 +70,6 @@ Python standard library.
 
 Developed by Mark Liffiton.
 
-S20-SIM ISA simulation code contributed by Jonathan Nocek and Kyle Wheat.
+Contributors:
+* S20-SIM ISA simulation code contributed by Jonathan Nocek and Kyle Wheat.
+* S21-ApplePi ISA simulation code contributed by Ray Loerke.
