@@ -168,13 +168,25 @@ class Simulator:
         if op == 10:
             self.seti(reg1, imm)
 
+    def setreg(self, reg, data):
+        # don't allow writes into registers $0 ($zero) and $1 ($one)
+        if reg == 0 or reg == 1:
+            return
+
+        # constrain data to 16 bits (a bit hacky to do it here, but oh well)
+        data = data & 0xffff
+
+        self.regfile[reg] = data
+
     def add(self, reg1, reg2):
         # reg1 = reg1 + reg2
-        self.regfile[reg1] += self.regfile[reg2]
+        result = self.regfile[reg1] + self.regfile[reg2]
+        self.setreg(reg1, result)
 
     def sub(self, reg1, reg2):
         # reg1 = reg1 - reg 2
-        self.regfile[reg1] -= self.regfile[reg2]
+        result = self.regfile[reg1] - self.regfile[reg2]
+        self.setreg(reg1, result)
 
     def seti(self, reg1, imm):
         # reg1 = immediate
@@ -182,20 +194,20 @@ class Simulator:
         # then the immediate is negative and must be adjusted accordingly
         if imm > 0b1111111:
             imm -= 256
-        self.regfile[reg1] = imm
+        self.setreg(reg1, imm)
 
     def set(self, reg1, reg2):
         # reg1 = reg2
-        self.regfile[reg1] = self.regfile[reg2]
+        self.setreg(reg1, self.regfile[reg2])
 
     def jr(self, reg1):
         # PC = address in reg1
         self.PC = self.regfile[reg1]
 
     def jal(self, tgt):
-        # Current PC is stored in $14
+        # Current PC is stored in $15
         # PC = Immediate (target)
-        self.regfile[14] = self.PC - 1
+        self.regfile[15] = self.PC
         self.PC = tgt
 
     def load(self, reg1, reg2):
@@ -214,7 +226,7 @@ class Simulator:
             # data = Value in Data Memory at address reg2
             data = self.dmem[self.regfile[reg2]]
         # reg1 gets data read from I/O or DMEM
-        self.regfile[reg1] = data
+        self.setreg(reg1, data)
 
     def store(self, reg2, reg1):
         addr = self.regfile[reg2]
@@ -257,4 +269,4 @@ class Simulator:
 
     def rand(self, reg1, imm):
         # reg1 = random value from 0-immediate
-        self.regfile[reg1] = (random.randint(0, imm))
+        self.setreg(reg1, random.randint(0, imm))
