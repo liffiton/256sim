@@ -81,8 +81,8 @@ class Simulator:
         # Print the current state of all state (memory) elements of the CPU
         print_val(self.PC, "PC")
         print_mem(self.imem, "IMEM", val_width=16, highlight=self.PC)
-        print_mem(self.regfile, "Regfile", label_all=True)
-        print_mem(self.dmem, "DMEM", limit_to_modified=True)
+        print_mem(self.regfile, "Regfile", val_width=16, label_all=True)
+        print_mem(self.dmem, "DMEM", val_width=16, min_addr=0x100, limit_to_modified=True)
         print_input(self.buttons, "Input")
         print_matrix(self.matrix, "Output")
 

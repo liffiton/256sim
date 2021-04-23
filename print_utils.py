@@ -15,12 +15,12 @@ def print_val(val, name):
 _mem_cache = {}
 
 
-def print_mem(array, name, val_width=8, label_all=False, highlight=None, limit_to_modified=False, limit_to_nonzero=False):
+def print_mem(array, name, val_width=8, min_addr=0, label_all=False, highlight=None, limit_to_modified=False, limit_to_nonzero=False):
     addrsize = math.ceil(math.log2(len(array))/4)
     valsize = math.ceil(val_width/4)
 
     t_columns, t_rows = shutil.get_terminal_size(fallback=(80, 24))
-    row_len = 1 if (label_all) else (t_columns - 4) // (valsize + 1)
+    row_len = 1 if (label_all) else (t_columns - addrsize - 1) // (valsize + 1)
 
     print_head(name)
 
@@ -63,7 +63,7 @@ def print_mem(array, name, val_width=8, label_all=False, highlight=None, limit_t
 
     mem_str = '\n'.join(
         row_to_str(both[i : i+row_len], i)
-        for i in range(0, max_addr+1, row_len)
+        for i in range(min_addr, max_addr+1, row_len)
     )
     print(mem_str)
     if limit_to_modified and max_addr != len(array):
