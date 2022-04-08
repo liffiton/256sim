@@ -92,3 +92,28 @@ class Simulator:
         #     according to what the execution of that instruction
         #     would do.
         pass
+
+###
+# Tips and Recommendations
+###
+#
+# 1) Create separate methods for fetch, decode, and execute.  Then create separate
+#    methods for every different instruction.  Pass the arguments for each instruction
+#    into its corresponding method when it is executed.
+#
+# 2) You can write binary literals in Python with the 0b prefix.  E.g.,  0b01101100
+#    Hexadecimal can be written with the 0x prefix.  E.g.,  0x6c
+#
+# 3) Use bitwise logical operators to mask and extract bits from a single instruction.
+#    This can be used to pull separate fields out of a single binary instruction.
+#
+# 4) Make sure you're clear on what the following are and what they hold / how they work:
+#
+#      self.PC, self.imem, self.regfile, self.dmem, self.buttons, self.matrix
+#
+#    Mostly they're arrays.  Look at the reset() method to see how they're initialized.
+#    The result of executing any instruction should be that some of these are modified.
+#    Ask me for clarification if you're unsure about any of them.
+#
+# 5) Take it one small step at a time, and test everything you implement before moving on!
+#
