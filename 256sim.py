@@ -98,7 +98,9 @@ def main():
                 continue
 
         elif cmd[0] == 'B':
-            buttons = args[0] if args else input("[1;32mNew state[0;32m (4 buttons; 0 or 1 each; e.g. '0010' to press just the third button)[1;32m:[m ")
+            num_buttons = arch._NUMBUTTONS  # ideally would be a method of the Simulator class...
+            example = f"{1:0{num_buttons}x}"
+            buttons = args[0] if args else input(f"[1;32mNew state[0;32m ({num_buttons} buttons; 0 or 1 each; e.g. '{example}' to press just the last button)[1;32m:[m ")
             try:
                 sim.change_buttons(buttons)
             except Exception as e:
