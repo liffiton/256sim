@@ -9,11 +9,12 @@
 import argparse
 import importlib
 import pathlib
+import readline  # noqa--  Automatically adds command history (via up/down keys)
 
 
 def read_cmd():
     # Show a prompt and read a command from the terminal
-    cmd = input("[1;32mCommand[0;32m (H)elp | (L)oad | (B)utton | (S)tep | (W)atch | (R)eset | (Q)uit[1;32m:[m ")
+    cmd = input("[1;32mCommand[0;32m (H)elp | (L)oad | (B)utton | (S)tep | (W)atch | Run (U)ntil | (R)eset | (Q)uit[1;32m:[m ")
     if cmd:
         parts = cmd.strip().split()
         return parts[0].upper(), parts[1:]
@@ -43,6 +44,9 @@ Commands:
     (W)atch  -- Watch the simulation over multiple clock cycles.  Specify a number
                 of cycles to simulate after the command (e.g., "w 10000").  The
                 state of the CPU is continuously displayed as the simulation runs.
+    Run (U)ntil
+             -- Run the simulation until the PC reaches the specified value.
+                Useful when debugging!  Run until a given instruction is reached.
     (R)eset  -- Reset the state of the CPU, clearing all memory elements except
                 the instruction memory.
     (Q)uit   -- Exit the simulation.
@@ -117,6 +121,13 @@ def main():
                 continue
             n = int(args[0])
             sim.watch_n(n)
+
+        elif cmd[0] == 'U':
+            if not args:
+                print(f"[1;31mRun Until command requires a target PC value.  (E.g., 'U 12'[m")
+                continue
+            tgt = int(args[0])
+            sim.run_until(tgt)
 
         elif cmd[0] == 'R':
             sim.reset()

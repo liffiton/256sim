@@ -66,6 +66,12 @@ class Simulator:
                 self.print()
                 time.sleep(0.05)
 
+    def run_until(self, pc_breakpoint):
+        # always execute at least once -- allows repeatedly running to the same instruction
+        self.step()
+        while self.PC != pc_breakpoint:
+            self.step()
+
     def reset(self):
         # Reset the CPU state to just-powered-on, with everything but IMEM cleared
         self.PC = 0
