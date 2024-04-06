@@ -81,7 +81,7 @@ class Simulator:
             if i % 100 == 0:
                 print("[2J[H")  # clear the screen and return to home position
                 self.print()
-                time.sleep(0.05)
+                time.sleep(0.05)    # simulate ~2kHz clock rate
 
     def run_until(self, pc_breakpoint: int) -> None:
         """ Simulate until the given breakpoint is reached.

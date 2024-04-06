@@ -94,11 +94,14 @@ def print_input(buttons: list[int], name: str) -> None:
 
 
 def print_matrix(matrix: list[list[int]], name: str) -> None:
+    assert all(0 <= val <= 7 for row in matrix for val in row)
+
     print_head(name)
 
     matrix_str = '\n'.join(
         ''.join(
-            '[31m█[m' if matrix[row][col] else '[30m█[m'
+            # "[30m" -> black; "[31m" -> red; etc.
+            f'[3{matrix[row][col]}m█[m'
             for col in range(len(matrix[row]))
         )
         for row in range(len(matrix))

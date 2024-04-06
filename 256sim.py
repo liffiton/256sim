@@ -59,7 +59,6 @@ def main():
     # Find all files archs/*.py, strip the .py part
     archs = [p.name[:-3] for p in pathlib.Path(".").glob("archs/*.py")]
     parser.add_argument("architecture", choices=archs)
-    archs = [p.name for p in pathlib.Path(".").glob("tests/*")]
     parser.add_argument("binfile", nargs="?")
     args = parser.parse_args()
 
@@ -117,14 +116,14 @@ def main():
 
         elif cmd[0] == 'W':
             if not args:
-                print(f"[1;31mWatch command requires a number of cycles to watch.  (E.g., 'W 10000'[m")
+                print("[1;31mWatch command requires a number of cycles to watch.  (E.g., 'W 10000'[m")
                 continue
             n = int(args[0])
             sim.watch_n(n)
 
         elif cmd[0] == 'U':
             if not args:
-                print(f"[1;31mRun Until command requires a target PC value.  (E.g., 'U 12'[m")
+                print("[1;31mRun Until command requires a target PC value.  (E.g., 'U 12'[m")
                 continue
             tgt = int(args[0])
             sim.run_until(tgt)
