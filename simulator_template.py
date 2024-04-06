@@ -125,7 +125,8 @@ class Simulator:
 # 2) You can write binary literals in Python with the 0b prefix.  E.g.,  0b01101100
 #    Hexadecimal can be written with the 0x prefix.  E.g.,  0x6c
 #
-# 3) Use bitwise logical operators to mask and extract bits from a single instruction.
+# 3) IMEM will contain raw binary machine code.  You will need to decode it carefully.
+#    Use bitwise logical operators to mask and extract bits from a single instruction.
 #    This can be used to pull separate fields out of a single binary instruction.
 #
 # 4) Make sure you're clear on what the following are and what they hold / how they work:

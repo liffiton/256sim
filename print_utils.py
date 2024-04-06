@@ -94,6 +94,13 @@ def print_input(buttons: list[int], name: str) -> None:
 
 
 def print_matrix(matrix: list[list[int]], name: str) -> None:
+    """ Display the LED matrix.
+
+    Parameters:
+     - matrix: 2D array (list of lists) of ints, one per pixel.
+               0 = off.  1 = red.  2 = green... (value added to
+               30 to set foreground color using ANSI)
+    """
     assert all(0 <= val <= 7 for row in matrix for val in row)
 
     print_head(name)
