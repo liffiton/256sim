@@ -1,21 +1,31 @@
 import math
 import shutil
+from typing import Any
 
 
-def print_head(string):
+def print_head(string: str) -> None:
     print(f"[1;4;33m{string}[m")
 
 
-def print_val(val, name):
+def print_val(val: Any, name: str) -> None:
     print_head(name)
     print(val)
 
 
 # store previous version of each array to highlight changes
-_mem_cache = {}
+_mem_cache : dict[str, tuple[list[int], int]] = {}
 
 
-def print_mem(array, name, val_width=8, min_addr=0, label_all=False, highlight=None, limit_to_modified=False, limit_to_nonzero=False):
+def print_mem(
+    array: list[int],
+    name: str,
+    val_width: int=8,
+    min_addr: int=0,
+    label_all: bool=False,
+    highlight: int|None=None,
+    limit_to_modified: bool=False,
+    limit_to_nonzero: bool=False
+) -> None:
     addrsize = math.ceil(math.log2(len(array))/4)
     valsize = math.ceil(val_width/4)
 
@@ -31,7 +41,7 @@ def print_mem(array, name, val_width=8, min_addr=0, label_all=False, highlight=N
         prev = array
         max_mod_addr = -1
 
-    def row_to_str(row_both, offset):
+    def row_to_str(row_both: list[tuple[int, int]], offset: int) -> str:
         # Turn a row of a memory into a printable string
         # row_both contains current and previous values, zipped
         # offset is the address of the first element in the given row
@@ -67,13 +77,13 @@ def print_mem(array, name, val_width=8, min_addr=0, label_all=False, highlight=N
     )
     print(mem_str)
     if limit_to_modified and max_addr != len(array):
-        print(f"[34m[Remaining addresses not modified since start of simulation.][m")
+        print("[34m[Remaining addresses not modified since start of simulation.][m")
 
     # Store the current contents and our maximum modified address for next time
     _mem_cache[name] = array[:], max_mod_addr
 
 
-def print_input(buttons, name):
+def print_input(buttons: list[int], name: str) -> None:
     print_head(name)
 
     num = len(buttons)
@@ -83,7 +93,7 @@ def print_input(buttons, name):
     print("└─" + "┴─"*(num-1) + "┘")
 
 
-def print_matrix(matrix, name):
+def print_matrix(matrix: list[list[int]], name: str) -> None:
     print_head(name)
 
     matrix_str = '\n'.join(

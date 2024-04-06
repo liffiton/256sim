@@ -16,16 +16,23 @@ _MATRIXSIZE = 1   # width and height of the pixel matrix output
 
 
 class Simulator:
-    def __init__(self):
+    def __init__(self) -> None:
         # CPU state:
-        self.imem = [0]  # not affected by CPU reset, so only initialized here
+        self.imem : list[int] = [0]  # not affected by CPU reset, so only initialized here
+        # Simulator state (separate from the CPU itself):
+        self.bin_filename : str = ""
+
+        # Initialize most state using .reset()
         self.reset()
 
-        # Simulator state (separate from the CPU itself):
-        self.bin_filename = ""
+    def load_bin(self, filename : str) -> None:
+        """ Load machine code from a file into instruction memory.
 
-    def load_bin(self, filename):
-        # Load machine code from a file into instruction memory
+        Parameters:
+         - filename: String of a path to a file containing machine code for
+                     instruction memory.  Machine code words should be written
+                     in hexadecimal, separated by whitespace.
+        """
         self.bin_filename = filename
         with open(filename, "r") as f:
             data = f.read()
@@ -35,30 +42,40 @@ class Simulator:
         # Always reset on loading new code
         self.reset()
 
-    def change_buttons(self, new_buttons):
-        # Change the state of the simulated buttons
-        # Parameter: new_buttons is a string, containing a 0 or 1 for each button
-        #            e.g. "0110" for the first button not pressed, the second and
-        #            third pressed, and the fourth not pressed.
+    def reset(self) -> None:
+        """ Reset the CPU state to just-powered-on, with everything but IMEM cleared. """
+        self.PC: int = 0
+        self.regfile: list[int] = [0] * _NUMREG
+        self.dmem: list[int] = [0] * 2 ** _ADDRSIZE
+        self.buttons: list[int] = [0] * _NUMBUTTONS
+        self.matrix: list[list[int]] = [([0] * _MATRIXSIZE) for _ in range(_MATRIXSIZE)]
+
+    def change_buttons(self, new_buttons : str) -> None:
+        """ Change the state of the simulated buttons.
+
+        Parameters:
+         - new_buttons: String containing a 0 or 1 for each button
+                        e.g. "0110" for the first button not pressed, the
+                        second and third pressed, and the fourth not pressed.
+        """
         buttonvals = [int(c) for c in new_buttons]
         if len(buttonvals) != _NUMBUTTONS:
             raise Exception(
                 f"Incorrect number of buttons.  Got {len(buttonvals)}, expected {_NUMBUTTONS}."
             )
         if max(buttonvals) > 1 or min(buttonvals) < 0:
-            raise Exception(
-                f"Invalid value for button.  Only allowed values are 0 and 1."
-            )
+            raise Exception("Invalid value for button.  Only allowed values are 0 and 1.")
         self.buttons = buttonvals
 
-    def step_n(self, n):
-        # Simulate n cycles of the CPU (see self.step()).
+    def step_n(self, n: int) -> None:
+        """ Simulate n cycles of the CPU (see self.step()). """
         for _ in range(n):
             self.step()
 
-    def watch_n(self, n):
-        # Simulate n cycles of the CPU, as in step_n(), but watch the
-        # state of the CPU by printing after every 100th cycle.
+    def watch_n(self, n: int) -> None:
+        """ Simulate n cycles of the CPU, as in step_n(), but watch the
+            state of the CPU by printing after every 100th cycle.
+        """
         for i in range(n):
             self.step()
             if i % 100 == 0:
@@ -66,22 +83,19 @@ class Simulator:
                 self.print()
                 time.sleep(0.05)
 
-    def run_until(self, pc_breakpoint):
+    def run_until(self, pc_breakpoint: int) -> None:
+        """ Simulate until the given breakpoint is reached.
+
+        Parameters:
+         - pc_breakpoint: int of the address at which execuation should stop
+        """
         # always execute at least once -- allows repeatedly running to the same instruction
         self.step()
         while self.PC != pc_breakpoint:
             self.step()
 
-    def reset(self):
-        # Reset the CPU state to just-powered-on, with everything but IMEM cleared
-        self.PC = 0
-        self.regfile = [0] * _NUMREG
-        self.dmem = [0] * 2 ** _ADDRSIZE
-        self.buttons = [0] * _NUMBUTTONS
-        self.matrix = [([0] * _MATRIXSIZE) for _ in range(_MATRIXSIZE)]
-
-    def print(self):
-        # Print the current state of all state (memory) elements of the CPU
+    def print(self) -> None:
+        """ Print the current state of all state (memory) elements of the CPU. """
         print_val(self.PC, "PC")
         print_mem(self.imem, "IMEM", val_width=16, highlight=self.PC)
         print_mem(self.regfile, "Regfile", label_all=True)
@@ -89,14 +103,15 @@ class Simulator:
         print_input(self.buttons, "Input")
         print_matrix(self.matrix, "Output")
 
-    def step(self):
-        # Simulate *one* cycle of the CPU (Fetch-Decode-Execute)
-        # Basic outline:
-        #  1) Fetch the current instruction (using imem and PC)
-        #  2) Decode the instruction into its different fields
-        #  3) Execute the instruction by updating the CPU state
-        #     according to what the execution of that instruction
-        #     would do.
+    def step(self) -> None:
+        """ Simulate *one* cycle of the CPU (Fetch-Decode-Execute)
+        Basic outline:
+          1) Fetch the current instruction (using imem and PC)
+          2) Decode the instruction into its different fields
+          3) Execute the instruction by updating the CPU state
+             according to what the execution of that instruction
+             should do according to the ISA specification.
+        """
         pass
 
 ###
