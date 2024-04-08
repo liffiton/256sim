@@ -9,7 +9,10 @@
 import argparse
 import importlib
 import pathlib
-import readline  # noqa--  Automatically adds command history (via up/down keys)
+try:
+    import readline  # noqa--  Automatically adds command history (via up/down keys)
+except ModuleNotFoundError:
+    pass  # that's okay; it's just an enhancement if it's present
 
 
 def read_cmd():
