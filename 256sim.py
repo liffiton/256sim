@@ -15,7 +15,7 @@ except ModuleNotFoundError:
     pass  # that's okay; it's just an enhancement if it's present
 
 
-def read_cmd():
+def read_cmd() -> tuple[str, list[str]]:
     # Show a prompt and read a command from the terminal
     cmd = input("[1;32mCommand[0;32m (H)elp | (L)oad | (B)utton | (S)tep | (W)atch | Run (U)ntil | (R)eset | (Q)uit[1;32m:[m ")
     if cmd:
@@ -25,7 +25,7 @@ def read_cmd():
         return "S", []
 
 
-def print_help():
+def print_help() -> None:
     print("""
 Commands:
     (H)elp   -- Print this help message.
@@ -57,23 +57,23 @@ Commands:
     Commands are case insensitive.""")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Simulate a CS256-designed CPU.")
     # Find all files archs/*.py, strip the .py part
     archs = [p.name[:-3] for p in pathlib.Path(".").glob("archs/*.py")]
     parser.add_argument("architecture", choices=archs)
     parser.add_argument("binfile", nargs="?")
-    args = parser.parse_args()
+    cmdline_args = parser.parse_args()
 
-    arch = importlib.import_module(f"archs.{args.architecture}")
+    arch = importlib.import_module(f"archs.{cmdline_args.architecture}")
 
     # Instantiate the Simulator object
     sim = arch.Simulator()
 
     # Allow a bin file to be specified on the command line
-    if args.binfile:
+    if cmdline_args.binfile:
         try:
-            sim.load_bin(args.binfile)
+            sim.load_bin(cmdline_args.binfile)
         except Exception as e:
             print(f"[1;31mError loading file:[m {e}")
             return
