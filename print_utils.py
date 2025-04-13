@@ -101,7 +101,8 @@ def print_matrix(matrix: list[list[int]], name: str) -> None:
                0 = off.  1 = red.  2 = green... (value added to
                30 to set foreground color using ANSI)
     """
-    assert all(0 <= val <= 7 for row in matrix for val in row)
+    # truncate pixel color values to 3 bits
+    matrix = [[val % 8 for val in row] for row in matrix]
 
     print_head(name)
 
