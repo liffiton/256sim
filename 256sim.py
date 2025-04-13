@@ -1,6 +1,6 @@
 #!/bin/env python3
 #
-# 256sim.py -- Command-line simulation of the CS256-S20 SIM CPU.
+# 256sim.py -- Command-line simulation of the CS256 CPU.
 #
 # Author: Mark Liffiton
 # Date: April, 2020
@@ -10,7 +10,7 @@ import argparse
 import importlib
 import pathlib
 try:
-    import readline  # noqa--  Automatically adds command history (via up/down keys)
+    import readline  # noqa F401 -- unused, but import automatically adds command history (via up/down keys)
 except ModuleNotFoundError:
     pass  # that's okay; it's just an enhancement if it's present
 
