@@ -63,13 +63,12 @@ that architecture by specifying the architecture name (*without*
 
 ## Dependencies
 
-The code is compatible with Python 3.6+ with no dependencies beyond the
+The code is compatible with Python 3.10+ with no dependencies beyond the
 Python standard library.
 
 ## Authors
 
 Developed by Mark Liffiton.
 
-Contributors:
-* S20-SIM ISA simulation code contributed by Jonathan Nocek and Kyle Wheat.
-* S21-ApplePi ISA simulation code contributed by Ray Loerke.
+ISA simulation code contributed by Jonathan Nocek, Kyle Wheat, and Ray Loerke.
+
